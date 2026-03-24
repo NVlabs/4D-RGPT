@@ -13,6 +13,8 @@
 
 This is the official repository for the **CVPR'26** paper **[4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation](https://arxiv.org/abs/2512.17012)**. 
 
+---
+
 ## 📖 Introduction
 
 Despite advances in Multimodal LLMs (MLLMs), their ability to reason over 3D structures and temporal dynamics remains limited, constrained by weak 4D perception and temporal understanding. Furthermore, existing 3D and 4D Video Question Answering (VQA) benchmarks emphasize static scenes and lack region-level prompting. 
@@ -23,8 +25,6 @@ To tackle these issues, we introduce:
 - **R4D-Bench**: A rigorous benchmark for depth-aware dynamic scenes featuring region-level prompting, built via a hybrid automated and human-verified pipeline.
 
 Our experiments demonstrate that 4D-RGPT achieves notable improvements over strong baselines on existing 3D/4D benchmarks (***+5.3%*** on average across 6 benchmarks) as well as our proposed region-based R4D-Bench (***+4.3%***).
-
----
 
 ## 💥 News 💥
 
@@ -49,3 +49,8 @@ If you find our work useful, please consider giving a star and citation:
 }
 ```
 
+## Licenses
+
+Copyright © 2026, NVIDIA Corporation. All rights reserved.
+
+This work is made available under the NVIDIA Source Code License-NC. Click [here](LICENSE) to view a copy of this license.
