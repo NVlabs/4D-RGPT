@@ -1,4 +1,4 @@
-# 4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation
+# [CVPR 2026] 4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation
 
 <h1 align="center"> 
     <img src="./teaser_4D-RGPT.png">
@@ -9,7 +9,8 @@
 
 [![Project Page](https://img.shields.io/badge/Project-Page-green.svg)](https://www.ca-joe-yang.com/resource/projects/4D_RGPT/)
 [![arXiv](https://img.shields.io/badge/arXiv-2512.17012-b31b1b.svg)](https://arxiv.org/abs/2512.17012)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Papers-blue)](https://huggingface.co/papers/2512.17012)
+[![Hugging Face Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dataset-green)](https://huggingface.co/datasets/nvidia/R4D-Bench)
+[![Hugging Face Paper](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Paper-blue)](https://huggingface.co/papers/2512.17012)
 
 This is the official repository for the **CVPR'26** paper **[4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation](https://arxiv.org/abs/2512.17012)**. 
 
@@ -32,9 +33,17 @@ Our experiments demonstrate that 4D-RGPT achieves notable improvements over stro
 - [ ] **[Upcoming]** 4D-RGPT Model Weights release.
 - [ ] **[Upcoming]** R4D-Bench Dataset release.
 - [x] **[Feb 2026]** 🔥🔥 4D-RGPT is accepted to CVPR 2026! 🎉🎉
-- [x] **[Dec 2025]** Initial paper, [Project Page](https://www.ca-joe-yang.com/resource/projects/4D_RGPT/), and [Hugging Face page](https://huggingface.co/papers/2512.17012) released.
+- [x] **[Dec 2025]** [Paper](https://arxiv.org/abs/2512.17012), [Project Page](https://www.ca-joe-yang.com/resource/projects/4D_RGPT/), and [Hugging Face page](https://huggingface.co/papers/2512.17012) released.
 
 *(Please watch/star this repository to stay updated on the code and dataset releases!)*
+
+---
+## Dataset Preparation
+### R4D-Bench
+Please follow our HF dataset instructions here: https://huggingface.co/datasets/nvidia/R4D-Bench.
+
+### Standard 4D/Spatial Benchmarks
+Please follow the official instructions of the datasets used in the paper: [STI-Bench](https://mint-sjtu.github.io/STI-Bench.io/), [VLM4D](https://vlm4d.github.io/), [OmniSpatial](https://qizekun.github.io/omnispatial/), [MMSI-Bench](https://runsenxu.com/projects/MMSI_Bench/), [SAT](https://arijitray.com/SAT/), and [VSTI-Bench](https://vlm-3r.github.io/). 
 
 ---
 
