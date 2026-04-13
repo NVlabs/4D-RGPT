@@ -1,11 +1,11 @@
-# [CVPR 2026] 4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation
+# [CVPR 2026 (Highlight)] 4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation
 
 [![Project Page](https://img.shields.io/badge/Project-Page-green.svg)](https://www.ca-joe-yang.com/resource/projects/4D_RGPT/)
 [![arXiv](https://img.shields.io/badge/arXiv-2512.17012-b31b1b.svg)](https://arxiv.org/abs/2512.17012)
 [![Hugging Face Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dataset-green)](https://huggingface.co/datasets/nvidia/R4D-Bench)
 [![Hugging Face Paper](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Paper-blue)](https://huggingface.co/papers/2512.17012)
 
-This is the official repository for the **CVPR'26** paper **[4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation](https://arxiv.org/abs/2512.17012)**. 
+This is the official repository for the **CVPR'26 Highlight** paper **[4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation](https://arxiv.org/abs/2512.17012)**. 
 
 [Chiao-An Yang*](https://www.ca-joe-yang.com/), [Ryo Hachiuma](https://scholar.google.com/citations?user=W1KPqGEAAAAJ), [Sifei Liu](https://sifeiliu.net/), [Subhashree Radhakrishnan](https://scholar.google.com/citations?user=bdlaQjkAAAAJ), [Raymond A. Yeh](https://raymond-yeh.com/), [Yu-Chiang Frank Wang](http://vllab.ee.ntu.edu.tw/ycwang.html), [Min-Hung Chen](https://minhungchen.netlify.app/) <br>
 (*Work done during the internship at NVIDIA Research)
@@ -31,8 +31,9 @@ Our experiments demonstrate that 4D-RGPT achieves notable improvements over stro
 
 - [ ] **[Upcoming]** Training and Inference Code release.
 - [ ] **[Upcoming]** 4D-RGPT Model Weights release.
+- [x] **[Apr. 2026]** 🔥🔥 4D-RGPT is selected as a **Highlight** paper at **CVPR 2026**! 🎉🎉
 - [x] **[Apr. 2026]** R4D-Bench Dataset release.
-- [x] **[Feb. 2026]** 🔥🔥 4D-RGPT is accepted to CVPR 2026! 🎉🎉
+- [x] **[Feb. 2026]** 🔥🔥 4D-RGPT is accepted to **CVPR 2026**! 🎉🎉
 - [x] **[Dec. 2025]** [Paper](https://arxiv.org/abs/2512.17012), [Project Page](https://www.ca-joe-yang.com/resource/projects/4D_RGPT/), and [Hugging Face page](https://huggingface.co/papers/2512.17012) released.
 
 *(Please watch/star this repository to stay updated on the code and model releases!)*
