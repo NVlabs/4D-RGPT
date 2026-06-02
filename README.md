@@ -38,8 +38,6 @@ Our experiments demonstrate that 4D-RGPT achieves notable improvements over stro
 
 **Contact:** Chiao-An Yang — <yang2300@purdue.edu>
 
-> **Released checkpoint:** [huggingface.co/nvidia/4D-RGPT-8B](https://huggingface.co/nvidia/4D-RGPT-8B) was trained on **`transformers==4.46`** (v4 stack). Load and run inference under the same stack — moving the checkpoint to `transformers==5.x` is not transparent (tokenizer artifacts differ; see [Note on `transformers` version compatibility](#note-on-transformers-version-compatibility) below). To extend or retrain, stay on the v4 stack as well.
-
 ---
 
 ## Built on VILA
@@ -82,6 +80,8 @@ SLURM (multi-node): `NUM_NODES=8 bash scripts/slurm/submit.sh scripts/nvila/sft.
 See [scripts/nvila/sft.sh](scripts/nvila/sft.sh) for the full training-arg surface (TPE, L_LD/L_ED weights, region extractor, etc.).
 
 ### Eval
+
+> **Released checkpoint:** [huggingface.co/nvidia/4D-RGPT-8B](https://huggingface.co/nvidia/4D-RGPT-8B) was trained on **`transformers==4.46`** (v4 stack). Load and run inference under the same stack — moving the checkpoint to `transformers==5.x` is not transparent (tokenizer artifacts differ; see [Note on `transformers` version compatibility](#note-on-transformers-version-compatibility) below). To extend or retrain, stay on the v4 stack as well.
 
 ```bash
 # 4D-RGPT / NVILA-family
