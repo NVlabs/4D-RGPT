@@ -1,0 +1,82 @@
+# Copyright (c) 2026, NVIDIA CORPORATION.  All rights reserved.
+#
+# NVIDIA CORPORATION and its licensors retain all intellectual property
+# and proprietary rights in and to this software, related documentation
+# and any modifications thereto.  Any use, reproduction, disclosure or
+# distribution of this software and related documentation without an express
+# license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+#!/bin/bash
+
+DEFAULT_GPUS_PER_NODE=8
+DEFAULT_MASTER_ADDR="127.0.0.1"
+DEFAULT_MASTER_PORT=25001
+
+echo "SLURM_JOB_ID = $SLURM_JOB_ID"
+echo "SLURM_JOB_NAME = $SLURM_JOB_NAME"
+
+RUN_NAME=${RUN_NAME:-$DEFAULT_RUN_NAME}
+RUN_NAME=${RUN_NAME:-$SLURM_JOB_NAME}
+echo "RUN_NAME = $RUN_NAME"
+
+OUTPUT_DIR=${OUTPUT_DIR:-"runs/train/$RUN_NAME"}
+echo "OUTPUT_DIR = $OUTPUT_DIR"
+
+export WANDB_PROJECT="vila"
+export WANDB_DIR=$OUTPUT_DIR
+export WANDB_RUN_ID=$RUN_NAME
+export WANDB_NAME=$RUN_NAME
+export WANDB_RESUME="allow"
+
+NNODES=${SLURM_JOB_NUM_NODES:-1}
+echo "NNODES = $NNODES"
+
+# scontrol is only on login nodes on this cluster; inside an sbatch/srun
+# allocation on a compute node it's unavailable. Guard so single-node
+# interactive runs don't print "scontrol: command not found".
+if command -v scontrol >/dev/null 2>&1 && [ -n "$SLURM_JOB_NODELIST" ]; then
+    NODES=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | tr '\n' ' ')
+else
+    NODES=${SLURM_JOB_NODELIST:-$(hostname)}
+fi
+echo "NODES = $NODES"
+
+NODE_RANK=${SLURM_NODEID:-${SLURM_PROCID:-0}}
+echo "NODE_RANK = $NODE_RANK"
+
+GPUS_PER_NODE=${SLURM_JOB_GPUS_PER_NODE:-$DEFAULT_GPUS_PER_NODE}
+echo "GPUS_PER_NODE = $GPUS_PER_NODE"
+
+if [ "${NNODES:-1}" = "1" ]; then
+    # Single-node: all ranks on this host. Loopback avoids any external-routing
+    # / container-network issues (e.g. pyxis hides compute-node IP from workers).
+    MASTER_ADDR=$DEFAULT_MASTER_ADDR
+elif command -v scontrol >/dev/null 2>&1 && [ -n "$SLURM_JOB_NODELIST" ]; then
+    MASTER_ADDR=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
+elif [ -n "$SLURM_LAUNCH_NODE_IPADDR" ]; then
+    MASTER_ADDR=$SLURM_LAUNCH_NODE_IPADDR
+fi
+MASTER_ADDR=${MASTER_ADDR:-$DEFAULT_MASTER_ADDR}
+echo "MASTER_ADDR = $MASTER_ADDR"
+
+MASTER_PORT=${MASTER_PORT:-$DEFAULT_MASTER_PORT}
+echo "MASTER_PORT = $MASTER_PORT"
+
+GLOBAL_TRAIN_BATCH_SIZE=${GLOBAL_TRAIN_BATCH_SIZE:-$DEFAULT_GLOBAL_TRAIN_BATCH_SIZE}
+echo "GLOBAL_TRAIN_BATCH_SIZE = $GLOBAL_TRAIN_BATCH_SIZE"
+
+GRADIENT_ACCUMULATION_STEPS=${GRADIENT_ACCUMULATION_STEPS:-$DEFAULT_GRADIENT_ACCUMULATION_STEPS}
+echo "GRADIENT_ACCUMULATION_STEPS = $GRADIENT_ACCUMULATION_STEPS"
+
+PER_DEVICE_TRAIN_BATCH_SIZE=$((GLOBAL_TRAIN_BATCH_SIZE / NNODES / GPUS_PER_NODE / GRADIENT_ACCUMULATION_STEPS))
+echo "PER_DEVICE_TRAIN_BATCH_SIZE = $PER_DEVICE_TRAIN_BATCH_SIZE"
+
+if [ -n "$MAX_PER_DEVICE_TRAIN_BATCH_SIZE" ] && [ "$PER_DEVICE_TRAIN_BATCH_SIZE" -gt "$MAX_PER_DEVICE_TRAIN_BATCH_SIZE" ]; then
+    echo "PER_DEVICE_TRAIN_BATCH_SIZE is greater than MAX_PER_DEVICE_TRAIN_BATCH_SIZE"
+    exit 1
+fi
+
+export NCCL_IB_SL=1
+export CUDA_DEVICE_MAX_CONNECTIONS=1
+export TORCH_NCCL_ASYNC_ERROR_HANDLING=1
+export OMP_NUM_THREADS=1

@@ -1,0 +1,40 @@
+# Vendored from VLM-3R upstream eval config:
+#   https://github.com/VITA-Group/VLM-3R/blob/main/thinking-in-space/lmms_eval/tasks/vstibench/vstibench.yaml
+# Keeps the canonical MCA/NA split, generation kwargs (16 new tokens, T=0),
+# and the per-question-type aggregation (averages MCA accuracy + NA MRA per
+# type, then averages across types). Frame count is left to the model adapter
+# (upstream's reference script uses max_frames_num=32).
+dataset_path: Journey9ni/vstibench
+dataset_kwargs:
+  token: True
+  cache_dir: vstibench
+  video: True
+task: vstibench
+test_split: test
+output_type: generate_until
+process_docs: !function utils.process_docs
+doc_to_visual: !function utils.vstibench_doc_to_visual
+doc_to_text: !function utils.vstibench_doc_to_text
+doc_to_target: "ground_truth"
+generation_kwargs:
+  max_new_tokens: 16
+  temperature: 0
+  top_p: 1.0
+  num_beams: 1
+  do_sample: false
+process_results: !function utils.vstibench_process_results
+metric_list:
+  - metric: vstibench_score
+    aggregation: !function utils.vstibench_aggregate_results
+    higher_is_better: true
+lmms_eval_specific_kwargs:
+  default:
+    pre_prompt: ""
+    mca_post_prompt: "Answer with the option's letter from the given choices directly."
+    na_post_prompt: "Please answer the question using a single word or phrase."
+  gpt4v:
+    pre_prompt: ""
+    mca_post_prompt: "Answer with the option's letter from the given choices directly."
+    na_post_prompt: "Do not response anything other than a single number!"
+metadata:
+  - version: 0.0

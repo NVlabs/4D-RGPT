@@ -1,0 +1,78 @@
+# ---- Python / build artifacts ----
+__pycache__
+.venv
+.venv-v5-backup
+pyproject.toml.v5-backup
+uv.lock.v5-backup
+
+# ---- IDE / editor ----
+.vscode
+
+# ---- Secrets & local config ----
+.env
+data/registry.yaml
+
+# ---- Runtime outputs / scratch ----
+.tmp/
+runs
+logs
+static
+media
+*.err
+*.log
+
+# ---- Large binaries & media ----
+*.bin
+*.ckpt
+*.mp4
+*.json
+
+# ---- Dataset directories (mounted/symlinked, never committed) ----
+datasets
+nvr_datasets
+sweeps
+samples
+maps
+R4D
+R4D-Bench
+STRIDE-QA-Dataset
+vlm-3r-llava-qwen2-lora
+
+# lmms-eval dataset caches + symlinks. scripts/lmms_eval/_lib.sh chdir's
+# into this folder before launching so all relative cache_dir:/data_files:
+# paths (ours + upstream task YAMLs) land here instead of at the repo root.
+.cache/
+
+# ---- Submodule / third-party artifacts ----
+*/l4p/demo/data
+*/l4p/demo/results
+
+# ---- Deprecated & local-only ----
+*_deprecated
+scripts/slurm
+/backup/
+# Under scripts/nvila/ and scripts/lmms_eval/: default-deny, allow only the
+# public entry points by name. New experiments / private launchers stay out
+# of git automatically without needing to list each one.
+scripts/nvila/*
+!scripts/nvila/sft.sh
+
+scripts/lmms_eval/*
+!scripts/lmms_eval/_lib.sh
+!scripts/lmms_eval/models/
+!scripts/lmms_eval/tasks/
+
+scripts/lmms_eval/models/*
+!scripts/lmms_eval/models/nvila.sh
+!scripts/lmms_eval/models/qwen2_5_vl.sh
+
+scripts/lmms_eval/tasks/*
+!scripts/lmms_eval/tasks/r4d_bench.sh
+!scripts/lmms_eval/tasks/vlm4d.sh
+!scripts/lmms_eval/tasks/vstibench.sh
+data/utils/gpt_helper.py
+/docs/
+data/stibench/
+
+# ---- Dev / PoC experiment artifacts (not committed) ----
+data/dev/

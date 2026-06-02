@@ -1,0 +1,63 @@
+task: r4d_bench
+dataset_path: json
+dataset_kwargs:
+  data_files:
+    test: R4D-Bench/.cache/test_normalized.jsonl
+test_split: test
+output_type: generate_until
+doc_to_visual: !function utils.r4d_doc_to_visual
+doc_to_text: !function utils.r4d_doc_to_text
+doc_to_target: !function utils.r4d_doc_to_target
+generation_kwargs:
+  max_new_tokens: 128
+  temperature: 0
+  do_sample: false
+  # Explicit empty stop-string list. When unset, lmms-eval's chat adapters
+  # fall back to a tokenizer-derived list and apply `ans.split(term)[0]`
+  # post-hoc, which can silently truncate the response to its first char if
+  # an early `term` matches. We rely on EOS / max_new_tokens for termination.
+  until: []
+process_results: !function utils.r4d_process_results
+# 12-column breakdown: Avg + Sta/Dyn + 9 task subcategories. Each metric
+# receives the same per-sample dict and filters via task_abbrev / split.
+# `r4d_accuracy` keeps its old aggregator (which also logs the 12-col table
+# and writes report.txt when R4D_REPORT_PATH is set).
+metric_list:
+  - metric: r4d_accuracy
+    aggregation: !function utils.r4d_aggregate_results
+    higher_is_better: true
+  - metric: r4d_static
+    aggregation: !function utils.r4d_static
+    higher_is_better: true
+  - metric: r4d_dynamic
+    aggregation: !function utils.r4d_dynamic
+    higher_is_better: true
+  - metric: r4d_VG
+    aggregation: !function utils.r4d_VG
+    higher_is_better: true
+  - metric: r4d_DM
+    aggregation: !function utils.r4d_DM
+    higher_is_better: true
+  - metric: r4d_SR
+    aggregation: !function utils.r4d_SR
+    higher_is_better: true
+  - metric: r4d_R
+    aggregation: !function utils.r4d_R
+    higher_is_better: true
+  - metric: r4d_C
+    aggregation: !function utils.r4d_C
+    higher_is_better: true
+  - metric: r4d_T
+    aggregation: !function utils.r4d_T
+    higher_is_better: true
+  - metric: r4d_FP
+    aggregation: !function utils.r4d_FP
+    higher_is_better: true
+  - metric: r4d_SA
+    aggregation: !function utils.r4d_SA
+    higher_is_better: true
+  - metric: r4d_DP
+    aggregation: !function utils.r4d_DP
+    higher_is_better: true
+metadata:
+  version: 0.1

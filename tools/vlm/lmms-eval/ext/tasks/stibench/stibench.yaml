@@ -1,0 +1,28 @@
+# Eval configuration mirrors the upstream MINT-SJTU/STI-Bench reference
+# implementation (opensource_test.py / openai_test.py): prompt template
+# `From {ts}s to {te}s. {Question}\n{(A) cand_a}\n...\nPlease output only
+# the option letter!`, max_new_tokens=512, deterministic decoding. Frame
+# count is left to the model adapter — upstream uses up-to-30 frames sampled
+# at compute_sample_fps(max_frames=30).
+task: stibench
+dataset_path: json
+dataset_kwargs:
+  data_files:
+    test: STI-Bench/.cache/test_normalized.jsonl
+test_split: test
+output_type: generate_until
+doc_to_visual: !function utils.stibench_doc_to_visual
+doc_to_text: !function utils.stibench_doc_to_text
+doc_to_target: !function utils.stibench_doc_to_target
+generation_kwargs:
+  max_new_tokens: 512
+  temperature: 0
+  do_sample: false
+  until: []
+process_results: !function utils.stibench_process_results
+metric_list:
+  - metric: stibench_accuracy
+    aggregation: !function utils.stibench_aggregate_results
+    higher_is_better: true
+metadata:
+  version: 0.1

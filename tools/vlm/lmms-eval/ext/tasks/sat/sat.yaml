@@ -1,0 +1,33 @@
+# Eval configuration follows the upstream arijitray1993/SAT reference
+# (custom_datasets/dataloaders.py: RealSATDynamic.format_prompts). The
+# canonical prompt asks the model to "Answer the question using a single
+# word or phrase. Choose between the following options: \"a\" or \"b\"."
+# Options are NOT presented with A/B letter labels.
+#
+# Upstream also uses "circular evaluation": each item is asked twice with
+# the option ordering reversed and only counted correct if the model
+# answers correctly in BOTH orderings. We materialize both orderings into
+# the cached JSONL so lmms-eval generates a prediction for each, and the
+# aggregator pairs them up by (id, ordering).
+task: sat
+dataset_path: json
+dataset_kwargs:
+  data_files:
+    test: SAT/.cache/test_circular.jsonl
+test_split: test
+output_type: generate_until
+doc_to_visual: !function utils.sat_doc_to_visual
+doc_to_text: !function utils.sat_doc_to_text
+doc_to_target: !function utils.sat_doc_to_target
+generation_kwargs:
+  max_new_tokens: 64
+  temperature: 0
+  do_sample: false
+  until: []
+process_results: !function utils.sat_process_results
+metric_list:
+  - metric: sat_accuracy
+    aggregation: !function utils.sat_aggregate_results
+    higher_is_better: true
+metadata:
+  version: 0.1

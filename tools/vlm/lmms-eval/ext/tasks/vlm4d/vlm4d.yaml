@@ -1,0 +1,35 @@
+# Eval configuration follows ShijieZhou-UCLA/VLM4D's direct-output (DO) path
+# (utils/constant.py: MULTI_CHOICE_DO_PROMPT). The canonical prompt asks the
+# model to "Answer directly with the option letter from the given choices."
+# with options rendered as "A: text\nB: text\n..." (colon-separated, no
+# parentheses).
+#
+# IMPORTANT — divergence from upstream scoring:
+#   Upstream's published numbers use an LLM-as-judge pass (o4-mini) over the
+#   raw model response (acc_evaluation.py / utils/eval_utils.py). This task
+#   uses rule-based letter extraction instead so it can run inside lmms-eval
+#   without OpenAI calls — fine for short DO responses (model emits "A"), but
+#   it will mis-score CoT responses. For strict parity with upstream numbers,
+#   switch to the CoT prompt + LLM judge.
+task: vlm4d
+dataset_path: json
+dataset_kwargs:
+  data_files:
+    test: VLM4D/.cache/test_normalized.jsonl
+test_split: test
+output_type: generate_until
+doc_to_visual: !function utils.vlm4d_doc_to_visual
+doc_to_text: !function utils.vlm4d_doc_to_text
+doc_to_target: !function utils.vlm4d_doc_to_target
+generation_kwargs:
+  max_new_tokens: 16
+  temperature: 0
+  do_sample: false
+  until: []
+process_results: !function utils.vlm4d_process_results
+metric_list:
+  - metric: vlm4d_accuracy
+    aggregation: !function utils.vlm4d_aggregate_results
+    higher_is_better: true
+metadata:
+  version: 0.1

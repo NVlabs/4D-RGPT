@@ -1,0 +1,6 @@
+[submodule "tools/vlm/lmms-eval/repo"]
+	path = tools/vlm/lmms-eval/repo
+	url = https://github.com/EvolvingLMMs-Lab/lmms-eval.git
+[submodule "third_party/L4P"]
+	path = third_party/L4P
+	url = https://github.com/NVlabs/L4P.git
