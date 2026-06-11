@@ -178,11 +178,12 @@ Training mixture for 4D-RGPT-8B: VSTI-Bench (training split), Wolf (NuScenes), R
 ## Citation
 If you find our work useful, please consider giving a star and citation:
 ```bibtex
-@article{yang20254d,
+@inproceedings{yang20264d,
   title={4D-RGPT: Toward Region-level 4D Understanding via Perceptual Distillation},
   author={Yang, Chiao-An and Hachiuma, Ryo and Liu, Sifei and Radhakrishnan, Subhashree and Yeh, Raymond A and Wang, Yu-Chiang Frank and Chen, Min-Hung},
-  journal={arXiv preprint arXiv:2512.17012},
-  year={2025}
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={31042--31053},
+  year={2026}
 }
 ```
 
